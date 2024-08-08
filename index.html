@@ -3,35 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Launch WeChat Mini Program</title>
+    <title>Redirect to WeChat Mini Program</title>
 </head>
 <body>
-    <!-- 微信开放标签 -->
-    <wx-open-launch-app 
-        id="launch-btn"
-        appid="wxd8ee9455bae07845" 
-        extinfo="{&quot;path&quot;:&quot;pages/index/view&quot;}">
-        <script type="text/wxtag-template">
-            <button>打开微信小程序</button>
-        </script>
-    </wx-open-launch-app>
-    
     <script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
     <script>
-        // 配置参数示例，需要替换成你的实际参数
+        // 替换成你的小程序配置
+        const appId = 'wxd8ee9455bae07845';
+        const path = 'pages/index/';
+
+        // 微信配置
         wx.config({
             debug: false, // 开启调试模式
             appId: 'YOUR_WECHAT_APPID', // 必填，公众号的唯一标识
             timestamp: TIMESTAMP, // 必填，生成签名的时间戳
             nonceStr: 'NONCESTR', // 必填，生成签名的随机串
             signature: 'SIGNATURE',// 必填，签名，见附录1
-            jsApiList: [] // 必填，需要使用的JS接口列表
+            jsApiList: ['launchApplication'] // 必填，需要使用的JS接口列表
         });
 
-        wx.ready(function () {
-            document.getElementById('launch-btn').addEventListener('click', function() {
-                // 可以在这里添加一些点击后的逻辑
+        wx.ready(function() {
+            // 自动跳转到微信小程序
+            wx.miniProgram.navigateTo({
+                url: path
             });
+        });
+        
+        wx.error(function(res){
+            // 错误处理
+            console.log(res);
         });
     </script>
 </body>
